@@ -9,8 +9,7 @@ submission are separate actions. A Git marketplace is not directory approval.
 
 1. Review the source, MIT license, included third-party notices and release
    checksums. Confirm the approved public export list before uploading.
-2. Push only this
-   marketplace repository. Never push the original development/installed plugin
+2. Push only this marketplace repository. Never push the original development/installed plugin
    directories or the private Application Support data directory.
 3. Users can add an extracted marketplace checkout using
    `codex plugin marketplace add .`,

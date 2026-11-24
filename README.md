@@ -154,8 +154,9 @@ It does not copy the working directory wholesale. The package manifest records
 source hashes, and the launcher checks them before startup.
 
 `tools/verify_release.py` tests a fresh relocated install, privacy canaries and
-the offline test suite. Run it in a network-denying sandbox with this repository
-as the project directory; its target test directory must not already exist.
+the offline service and release-tool test suites. Each run uses a temporary
+directory and removes it afterward, so the command can be repeated. Run it in a
+network-denying sandbox with this repository as the project directory.
 See [verification evidence](plugins/openai-studio/audit/verification.md) and
 [publishing guidance](PUBLISHING.md). Hashes detect changes; they are not signatures
 or a guarantee that software has no vulnerabilities.

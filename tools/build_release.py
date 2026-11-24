@@ -7,6 +7,7 @@ import zipfile
 
 REPO = Path(__file__).resolve().parents[1]
 PLUGIN = REPO/'plugins/openai-studio'
+VERSION = json.loads((PLUGIN/'plugin.json').read_text())['version']
 PUBLIC_FILES = [
     'plugin.json', 'mcp.json', '.mcp.json', '.codex-plugin/plugin.json', 'bin/studio',
     'server/mcp_server.py', 'server/storage.py', 'server/launch.py', 'server/entry.py',
@@ -19,11 +20,21 @@ PUBLIC_FILES = [
     'requirements.lock', 'requirements-arm64.lock', 'audit/dependencies.json',
     'audit/reviewed-sdk.json', 'audit/verification.md', 'audit/logo-gate.md']
 REPO_FILES = ['README.md', 'LICENSE', 'PUBLISHING.md', '.gitignore', '.agents/plugins/marketplace.json',
-              'tools/build_release.py', 'tools/download_wheels.py', 'tools/verify_release.py']
+              'tools/build_release.py', 'tools/download_wheels.py', 'tools/verify_release.py', 'tools/tests/test_release.py']
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def validate_public_file(root, relative):
+    path = root/relative
+    if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(root.resolve()):
+        raise ValueError('Missing or unsafe public file: '+relative)
+    if path.suffix in {'.py', '.json', '.md', '.txt', '.svg', '.lock'} or path.name in {'studio', 'LICENSE', '.gitignore'}:
+        contents = path.read_bytes()
+        if re.search(rb'/(?:Users|home)/[^/\s]+/', contents) or re.search(rb'sk-[A-Za-z0-9_-]{24,}', contents):
+            raise ValueError('Personal path or credential-like text in a public source file: '+relative)
 
 
 def wheel_files():
@@ -62,17 +73,13 @@ def package_files():
     notices(wheels)
     files = sorted(PUBLIC_FILES+wheels)
     for relative in files:
-        path = PLUGIN/relative
-        if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(PLUGIN):
-            raise ValueError('Missing or unsafe public file: '+relative)
-        if path.suffix in {'.py', '.json', '.md', '.txt', '.svg', '.lock'} or path.name in {'studio', 'LICENSE'}:
-            contents = path.read_bytes()
-            if b'/Users/jezwn' in contents or re.search(rb'sk-[A-Za-z0-9_-]{24,}', contents):
-                raise ValueError('Personal path or credential-like text in a public source file: '+relative)
+        validate_public_file(PLUGIN, relative)
     defaults = json.loads((PLUGIN/'server/defaults.json').read_text())
     if defaults['api_key'] or defaults['history'] or defaults['estimated_spend_usd']:
         raise ValueError('Public defaults must have an empty key, history and spend.')
-    manifest = {'name': 'openai-studio', 'display_name': 'Studio Local', 'version': '1.1.1',
+    if json.loads((PLUGIN/'.codex-plugin/plugin.json').read_text())['version'] != VERSION:
+        raise ValueError('Plugin manifest versions must match.')
+    manifest = {'name': 'openai-studio', 'display_name': 'Studio Local', 'version': VERSION,
         'platform': 'macOS 13+ / Apple Silicon / native CPython 3.11',
         'files': {name: digest(PLUGIN/name) for name in files},
         'dependency_files': json.loads((PLUGIN/'audit/reviewed-sdk.json').read_text())}
@@ -94,13 +101,15 @@ def write_zip(destination, root, files):
 
 
 def build():
+    for relative in REPO_FILES:
+        validate_public_file(REPO, relative)
     plugin_files = package_files()
     (REPO/'LICENSE').write_bytes((PLUGIN/'LICENSE').read_bytes())
     repo_files = REPO_FILES+['plugins/openai-studio/'+p for p in plugin_files]
     destination = REPO/'dist'
     destination.mkdir(exist_ok=True)
-    plugin_zip = destination/'studio-local-1.1.1-macos-arm64.zip'
-    repo_zip = destination/'studio-local-marketplace-1.1.1.zip'
+    plugin_zip = destination/f'studio-local-{VERSION}-macos-arm64.zip'
+    repo_zip = destination/f'studio-local-marketplace-{VERSION}.zip'
     write_zip(plugin_zip, PLUGIN, plugin_files)
     write_zip(repo_zip, REPO, repo_files)
     (destination/'SHA256SUMS.txt').write_text(''.join(f'{digest(p)}  {p.name}\n' for p in [plugin_zip, repo_zip]))

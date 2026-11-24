@@ -107,7 +107,7 @@ if __name__ == '__main__':
                      Path('/System'), Path('/Library'), Path('/usr'), Path('/bin'), Path('/dev'), Path('/private/etc')]
             paths = lambda roots: ' '.join('(subpath '+json.dumps(str(p.resolve()))+')' for p in roots)
             writes = [PLUGIN/'wheelhouse', scratch]
-            literals = ' '.join('(literal '+json.dumps(str(p))+')' for p in [PLUGIN/'requirements-arm64.lock', PLUGIN/'requirements-x86_64.lock', PLUGIN/'audit/dependencies.json'])
+            literals = ' '.join('(literal '+json.dumps(str(p))+')' for p in [PLUGIN/'requirements-arm64.lock', PLUGIN/'audit/dependencies.json'])
             policy = '\n'.join(['(version 1)', '(deny default)',
                 '(allow process-exec process-fork sysctl-read mach-lookup ipc-posix-shm)',
                 '(allow signal process-info* (target same-sandbox))', '(allow file-read-metadata file-test-existence)',

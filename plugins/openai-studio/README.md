@@ -39,8 +39,9 @@ State, credentials, cached model IDs, approved inputs, generated outputs and the
 runtime live in `~/Library/Application Support/Studio Local/`, outside this
 package. The data directory is private (0700) and settings are owner-only (0600).
 An explicit `OPENAI_STUDIO_DATA_DIR` can select a dedicated absolute directory;
-symlinks and home/filesystem roots are rejected. Do not point it at another
-project or at the plugin package. Release exports never copy this directory.
+symlinks, home/filesystem roots and paths overlapping the plugin are rejected,
+including `..` paths and case aliases that refer to those locations. Do not point
+it at another project. Release exports never copy this directory.
 
 ## Install from the marketplace
 
