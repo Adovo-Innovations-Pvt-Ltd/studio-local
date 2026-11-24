@@ -9,14 +9,26 @@ import tempfile
 PACKAGE = Path(__file__).resolve().parent
 
 
+def _is_within(path, root):
+    # File identity also catches case aliases on case-insensitive volumes.
+    return path.is_relative_to(root) or (root.exists() and any(
+        parent.exists() and parent.samefile(root) for parent in (path, *path.parents)))
+
+
 def data_directory():
     value = os.environ.get('OPENAI_STUDIO_DATA_DIR')
     path = Path(value) if value else Path.home()/'Library/Application Support/Studio Local'
-    if not path.is_absolute() or path in (Path('/'), Path.home()):
+    if not path.is_absolute():
         raise ValueError('Choose an absolute, dedicated Studio Local data directory.')
     for part in [path, *path.parents]:
         if part.is_symlink():
             raise ValueError('Studio Local data paths must not contain symlinks.')
+    path = path.resolve()
+    plugin = PACKAGE.parent.resolve()
+    home = Path.home().resolve()
+    is_home = path == home or (path.exists() and home.exists() and path.samefile(home))
+    if path == Path('/') or is_home or _is_within(path, plugin) or _is_within(plugin, path):
+        raise ValueError('Choose a dedicated data directory outside the plugin, not a home or filesystem root.')
     return path
 
 

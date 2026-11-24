@@ -33,7 +33,7 @@ def main():
             raise ValueError('A package file failed verification. Use an unmodified release.')
     data = data_directory()
     initialize(data)
-    environment = data/f'runtime/1.1.1-{arch}'
+    environment = data/f"runtime/{manifest['version']}-{arch}"
     marker = environment/'.studio-runtime.json'
     manifest_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
     if environment.is_symlink() or environment.parent.is_symlink():
@@ -55,7 +55,7 @@ def main():
         '--find-links', str(PLUGIN/'wheelhouse'/arch), '-r', str(PLUGIN/f'requirements-{arch}.lock')],
         env=env, check=True, shell=False)
     subprocess.run([str(python), '-I', '-m', 'pip', '--disable-pip-version-check', 'check'], env=env, check=True, shell=False)
-    marker.write_text(json.dumps({'version': '1.1.1', 'architecture': arch, 'manifest_sha256': manifest_hash})+'\n')
+    marker.write_text(json.dumps({'version': manifest['version'], 'architecture': arch, 'manifest_sha256': manifest_hash})+'\n')
     marker.chmod(0o600)
     print('Offline runtime ready. In your own Terminal, run:')
     import shlex

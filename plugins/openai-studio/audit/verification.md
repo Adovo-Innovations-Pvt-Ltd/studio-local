@@ -20,12 +20,16 @@ reviewed. The package's only credential entry is the user's own getpass Terminal
 prompt; no secret tool input, UI or MCP elicitation is exposed. Key storage is
 plaintext with 0600 permissions, outside the package, not Keychain encryption.
 
-Thirty-one service/portable tests passed offline with fake keys and mocked API
-transport. They cover required per-request choices, one-request multipart arrays,
+Service, portable and release-tool tests passed offline with fake keys and mocked
+API transport. They cover required per-request choices, one-request multipart arrays,
 1/16 reference boundaries, invalid files/counts/size, key redaction, metadata-only
 authorization, no assumed balance, safe partial failures, accounting, private
 state preservation, symlink rejection, prompt refusal for pipes/unmasked fallback,
-and stdio discovery (8 tools, no UI resources).
+and stdio discovery (8 tools, no UI resources). Path regression checks cover dot
+segments resolving to home/root, case aliases and data paths overlapping the plugin. Release
+tests also check repository documents for credential-like text and personal
+paths, and reject symlink/outside-root exports. These scans supplement the
+allowlist; they do not prove all confidential data is absent.
 
 Public PyPI wheel acquisition used a separate reviewed sandbox with a clean
 environment, fixed pypi.org/files.pythonhosted.org HTTPS destinations, verified
@@ -42,7 +46,8 @@ decision reasons and the complete delivery gate. No asset or prompt was uploaded
 
 Further release checks cover clean offline installation, launcher hashes,
 export allowlists, ZIP integrity, SHA-256 checksums and private-file canaries.
-Results are recorded in the repository's dist/verification.json after export.
+Each verifier run uses and removes a fresh temporary directory. Results and the
+actual executed test count are recorded in dist/verification.json after export.
 Pattern scans supplement allowlisting; neither proves absence of vulnerabilities
 or all possible secrets. No live API generation or real key entry is used for
 release testing. Native Intel execution and human Terminal entry are untested.

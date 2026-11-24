@@ -98,9 +98,46 @@ class PortableTests(unittest.TestCase):
             storage.save_key(self.data, 'sk-offline-key')
         self.assertEqual(target.read_text(), '{}')
 
+    def test_dot_segments_cannot_select_home_or_root(self):
+        home = self.data.parent/'home'
+        home.mkdir()
+        for value in [home/'unused/..', Path('/private/..')]:
+            with self.subTest(path=value), patch.object(Path, 'home', return_value=home), \
+                 patch.dict(os.environ, {'OPENAI_STUDIO_DATA_DIR': str(value)}):
+                with self.assertRaises(ValueError):
+                    storage.data_directory()
+        self.assertFalse((home/'state').exists())
+        with patch.object(Path, 'home', return_value=home), \
+             patch.dict(os.environ, {'OPENAI_STUDIO_DATA_DIR': str(home/'private/child/..')}):
+            self.assertEqual(storage.data_directory(), home/'private')
+
+    def test_data_directory_cannot_overlap_plugin(self):
+        plugin = self.data.parent/'plugin'
+        with patch.object(storage, 'PACKAGE', plugin/'server'):
+            for value in [plugin, plugin/'private-data', plugin.parent]:
+                with self.subTest(path=value), patch.dict(os.environ, {'OPENAI_STUDIO_DATA_DIR': str(value)}):
+                    with self.assertRaises(ValueError):
+                        storage.data_directory()
+
+    def test_case_aliases_cannot_select_protected_directories(self):
+        home = self.data.parent/'home'
+        plugin = self.data.parent/'plugin'
+        home.mkdir()
+        plugin.mkdir()
+        if not home.with_name('HOME').exists():
+            self.skipTest('Case-sensitive filesystem; no case aliases exist.')
+        values = [home.with_name('HOME'), plugin.with_name('PLUGIN'),
+                  plugin.with_name('PLUGIN')/'private-data', self.data.parent.with_name(self.data.parent.name.upper())]
+        with patch.object(Path, 'home', return_value=home), patch.object(storage, 'PACKAGE', plugin/'server'):
+            for value in values:
+                with self.subTest(path=value), patch.dict(os.environ, {'OPENAI_STUDIO_DATA_DIR': str(value)}):
+                    with self.assertRaises(ValueError):
+                        storage.data_directory()
+
     def test_portable_metadata_and_original_icons(self):
         manifest = json.loads((PLUGIN/'plugin.json').read_text())
-        self.assertEqual(manifest['version'], '1.1.1')
+        release = json.loads((PLUGIN/'release-manifest.json').read_text())
+        self.assertEqual(manifest['version'], release['version'])
         interface = manifest['extensions']['com.openai']['interface']
         self.assertEqual(interface['displayName'], 'Studio Local')
         self.assertLessEqual(len(interface['shortDescription']), 30)
