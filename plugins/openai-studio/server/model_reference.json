@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-11-24",
+  "note": "Documented limits and Studio limits are distinct from account RPM/TPM. The Models API returns IDs rather than parameter schemas or billing balances.",
+  "groups": {
+    "images": {
+      "label": "Images",
+      "endpoint": "Images generation/edit",
+      "notes": "Select model, quality and planning effort in chat for each request. Planning effort (complexity) is distinct from output quality; default omits the parameter. GPT Image 2 supports auto/low/medium/high quality, not xhigh/max. Edits accept 1-16 ordered PNG/JPEG/WebP references, each at most 25 MiB and 100 MiB combined. An optional PNG mask is smaller than 4 MB, matches the first reference and applies to it. Studio caps prompt length at 32,000 characters and output count at 10. Model support varies.",
+      "url": "https://developers.openai.com/api/docs/guides/image-generation"
+    },
+    "speech": {
+      "label": "Speech synthesis",
+      "endpoint": "POST /v1/audio/speech",
+      "notes": "Choose model and voice in chat per request; no reasoning-effort setting. Speech input: up to 4,096 characters. Speed: 0.25-4. Formats: wav, mp3, opus, aac, flac, pcm. Voice and delivery-instruction support depend on the model. PCM is saved as raw audio.",
+      "url": "https://developers.openai.com/api/reference/resources/audio/subresources/speech/methods/create"
+    },
+    "transcription": {
+      "label": "Transcription",
+      "endpoint": "POST /v1/audio/transcriptions",
+      "notes": "Studio saves a JSON transcription response as text and accepts an optional two-letter language code. Diarization-specific options are not implemented; choose a general transcription model for the existing tool. Studio accepts files up to 25 MiB; provider limits also apply.",
+      "url": "https://developers.openai.com/api/docs/guides/speech-to-text"
+    },
+    "video": {
+      "label": "Video, reference only",
+      "endpoint": "Videos API, retired",
+      "notes": "OpenAI documents Sora 2 and the Videos API as shut down on 24 September 2026, with no one-to-one API replacement. Historical parameters were 4/8/12 seconds and 720x1280, 1280x720, 1024x1792 or 1792x1024. Listing an ID does not prove that video generation is usable. No video generation tools are added.",
+      "url": "https://developers.openai.com/api/reference/resources/videos/methods/create"
+    },
+    "responses": {
+      "label": "Text / Responses candidates",
+      "endpoint": "POST /v1/responses",
+      "notes": "Choose model and reasoning effort in chat for each request. Explicit effort default omits the API option; other values require model support. Studio's output cap is 16-128,000 tokens; model limits may differ. Verbosity is per request and omitted when blank. Bulk text runs sequentially with store=false.",
+      "url": "https://developers.openai.com/api/docs/guides/text"
+    },
+    "realtime": {
+      "label": "Realtime / Live, reference only",
+      "endpoint": "Realtime / Live",
+      "notes": "These models need their own streaming/session APIs. Studio's saved speech and transcription defaults do not configure a Realtime or Live session.",
+      "url": "https://developers.openai.com/api/docs/guides/realtime"
+    },
+    "audio_other": {
+      "label": "Other audio, reference only",
+      "endpoint": "Model-specific audio endpoint",
+      "notes": "Audio chat models are not automatically compatible with the Speech API or transcription API. Check the model's endpoint documentation before choosing a default.",
+      "url": "https://developers.openai.com/api/docs/guides/audio"
+    },
+    "embeddings": {
+      "label": "Embeddings, reference only",
+      "endpoint": "POST /v1/embeddings",
+      "notes": "Listed for discovery. Studio currently has no embedding generation tool.",
+      "url": "https://developers.openai.com/api/docs/guides/embeddings"
+    },
+    "moderation": {
+      "label": "Moderation, reference only",
+      "endpoint": "POST /v1/moderations",
+      "notes": "Listed for discovery. Studio currently has no moderation execution tool.",
+      "url": "https://developers.openai.com/api/docs/guides/moderation"
+    },
+    "other": {
+      "label": "Other / legacy / unclassified",
+      "endpoint": "Check model documentation",
+      "notes": "An ID in the list does not identify its supported endpoint. Legacy completion or chat-only models may not work with Studio's Responses tool.",
+      "url": "https://developers.openai.com/api/docs/models"
+    }
+  },
+  "models": {
+    "gpt-image-1": {"status": "Shut down 23 October 2026", "url": "https://developers.openai.com/api/docs/models/gpt-image-1"},
+    "gpt-4.1": {"status": "Deprecated", "context_tokens": 1047576, "max_output_tokens": 32768, "url": "https://developers.openai.com/api/docs/models/gpt-4.1"},
+    "gpt-4o-mini-tts": {"status": "Deprecated", "max_input_tokens": 2000, "max_input_characters": 4096, "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini-tts"},
+    "gpt-4o-transcribe": {"status": "Deprecated", "context_tokens": 16000, "max_output_tokens": 2000, "url": "https://developers.openai.com/api/docs/models/gpt-4o-transcribe"},
+    "sora-2": {"status": "Shut down 24 September 2026", "url": "https://developers.openai.com/api/docs/models/sora-2"},
+    "sora-2-pro": {"status": "Shut down 24 September 2026", "url": "https://developers.openai.com/api/reference/resources/videos/methods/create"},
+    "gpt-4.1-mini": {"status": "Deprecated", "context_tokens": 1047576, "max_output_tokens": 32768, "url": "https://developers.openai.com/api/docs/models/gpt-4.1-mini"},
+    "gpt-4o-mini": {"status": "Deprecated", "context_tokens": 128000, "max_output_tokens": 16384, "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini"},
+    "gpt-4o-mini-transcribe": {"status": "Deprecated", "context_tokens": 16000, "max_output_tokens": 2000, "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini-transcribe"},
+    "gpt-6.2-sol": {"status": "Documented model; use returned list for key discovery", "context_tokens": 1050000, "max_input_tokens": 922000, "max_output_tokens": 128000, "notes": "The API rejects reasoning effort none for this model.", "url": "https://developers.openai.com/api/docs/models/gpt-6.2-sol"},
+    "gpt-6.1-terra": {"status": "Documented model; use returned list for key discovery", "context_tokens": 1050000, "max_input_tokens": 922000, "max_output_tokens": 128000, "notes": "Documented reasoning efforts: none, low, medium (default), high, xhigh, max. Tool calling requires Responses.", "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"},
+    "gpt-image-2.5-sunburst": {"status": "Documented model; use returned list for key discovery", "notes": "Documented quality choices include low, medium, high, xhigh, max and auto.", "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst"},
+    "gpt-image-2.6-sunburst": {"status": "Documented model; use returned list for key discovery", "notes": "Studio supports complexity (planning effort). Markup-guided edits, SVG and animated GIF output modes are not implemented by Studio.", "url": "https://developers.openai.com/api/docs/models/gpt-image-2.6-sunburst"},
+    "gpt-transcribe": {"status": "Documented model; use returned list for key discovery", "notes": "Completed audio files, streamed file transcripts and committed Realtime turns are documented. Studio uses completed files only.", "url": "https://developers.openai.com/api/docs/models/gpt-transcribe"}
+  }
+}

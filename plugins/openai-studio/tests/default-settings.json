@@ -1,0 +1,12 @@
+{
+  "api_key": "sk-offline-test-only",
+  "image_model": "gpt-image-1",
+  "image_size": "1024x1024",
+  "image_quality": "high",
+  "tts_model": "gpt-4o-mini-tts",
+  "tts_voice": "alloy",
+  "transcribe_model": "gpt-4o-transcribe",
+  "text_model": "gpt-4.1",
+  "estimated_spend_usd": 0.0,
+  "history": []
+}

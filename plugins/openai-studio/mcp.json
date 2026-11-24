@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "openai_studio": {
+      "type": "stdio",
+      "command": "/bin/sh",
+      "args": ["${PLUGIN_ROOT}/bin/studio", "serve"],
+      "cwd": "${PLUGIN_ROOT}"
+    }
+  }
+}

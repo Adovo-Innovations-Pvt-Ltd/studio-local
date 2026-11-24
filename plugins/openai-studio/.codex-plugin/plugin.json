@@ -1,0 +1,20 @@
+{
+  "name": "openai-studio",
+  "version": "1.1.0",
+  "license": "MIT",
+  "author": {"name": "Adovo Innovations Pvt Ltd", "url": "https://github.com/Adovo-Innovations-Pvt-Ltd"},
+  "homepage": "https://github.com/Adovo-Innovations-Pvt-Ltd/studio-local",
+  "description": "Studio Local: create API assets with model and effort choices in chat. Independent community software.",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "requires_local_executor": true,
+  "interface": {
+    "displayName": "Studio Local",
+    "shortDescription": "Create with your own API key",
+    "category": "Developer Tools",
+    "capabilities": ["Read", "Write"],
+    "logo": "./assets/icon.png",
+    "composerIcon": "./assets/mark.svg",
+    "composerIconDark": "./assets/mark-dark.svg"
+  }
+}

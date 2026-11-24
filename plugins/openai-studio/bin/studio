@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+plugin_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+data_dir=${OPENAI_STUDIO_DATA_DIR:-"${HOME:?HOME is not set}/Library/Application Support/Studio Local"}
+machine=$(/usr/bin/uname -m)
+runtime="$data_dir/runtime/1.1.0-$machine/bin/python3"
+if [ ! -x "$runtime" ]; then
+    printf '%s\n' "Studio Local needs one-time offline setup. In Terminal run:" "python3.11 \"$plugin_root/scripts/setup.py\"" >&2
+    exit 1
+fi
+export OPENAI_STUDIO_DATA_DIR="$data_dir"
+case "${1:-}" in
+  serve) exec "$runtime" -I "$plugin_root/server/launch.py" ;;
+  setup-key) exec "$runtime" -I "$plugin_root/scripts/setup_key.py" ;;
+  remove-key) exec "$runtime" -I "$plugin_root/scripts/setup_key.py" --remove ;;
+  *) printf '%s\n' 'Usage: studio serve | setup-key | remove-key' >&2; exit 2 ;;
+esac

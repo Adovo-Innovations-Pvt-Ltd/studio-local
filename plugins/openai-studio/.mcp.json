@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "openai_studio": {
+      "command": "/bin/sh",
+      "args": ["${PLUGIN_ROOT}/bin/studio", "serve"],
+      "cwd": "${PLUGIN_ROOT}",
+      "startup_timeout_sec": 30,
+      "tool_timeout_sec": 900
+    }
+  }
+}

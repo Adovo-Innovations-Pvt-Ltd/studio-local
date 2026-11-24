@@ -1,0 +1,10 @@
+{
+  "name": "studio-local",
+  "interface": {"displayName": "Studio Local"},
+  "plugins": [{
+    "name": "openai-studio",
+    "source": {"source": "local", "path": "./plugins/openai-studio"},
+    "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+    "category": "Developer Tools"
+  }]
+}
