@@ -25,8 +25,8 @@ try:
     canary.write_bytes(token)
     other.write_bytes(token)
     plugin_files, repo_files = builder.build()
-    for filename, expected in [('studio-local-1.1.0-macos-arm64.zip', plugin_files),
-                               ('studio-local-marketplace-1.1.0.zip', repo_files)]:
+    for filename, expected in [('studio-local-1.1.1-macos-arm64.zip', plugin_files),
+                               ('studio-local-marketplace-1.1.1.zip', repo_files)]:
         with zipfile.ZipFile(REPO/'dist'/filename) as archive:
             if archive.testzip() is not None or set(archive.namelist()) != set(expected):
                 raise SystemExit('Archive entry/integrity verification failed.')
@@ -43,17 +43,17 @@ finally:
     canary.unlink(missing_ok=True)
     other.unlink(missing_ok=True)
 
-test = REPO/'.test-data/relocated'
+test = REPO/'.test-data/relocated-1.1.1'
 if test.exists():
     raise SystemExit('Use a new clean test folder; refusing to overwrite an earlier install.')
 test.mkdir(parents=True)
 extracted = test/'Studio Local package with spaces'
 extracted.mkdir()
-with zipfile.ZipFile(REPO/'dist/studio-local-1.1.0-macos-arm64.zip') as archive:
+with zipfile.ZipFile(REPO/'dist/studio-local-1.1.1-macos-arm64.zip') as archive:
     archive.extractall(extracted)
 data = test/'private data'
 subprocess.run([sys.executable, '-I', str(extracted/'scripts/setup.py'), '--data-dir', str(data)], check=True, shell=False)
-runtime = data/'runtime/1.1.0-arm64/bin/python3'
+runtime = data/'runtime/1.1.1-arm64/bin/python3'
 subprocess.run([str(runtime), '-I', '-m', 'unittest', 'discover', '-s', str(extracted/'tests'), '-p', 'test_*.py', '-v'], check=True, shell=False)
 
 checks = """import importlib.util,json
@@ -79,7 +79,7 @@ if unused.exists():
         raise SystemExit('Unused dependency destination already exists.')
     shutil.move(str(unused), destination)
 
-report = {'status':'passed','version':'1.1.0','tests':31,'platform_tested':'Apple Silicon/macOS/Python 3.11',
+report = {'status':'passed','version':'1.1.1','tests':31,'platform_tested':'Apple Silicon/macOS/Python 3.11',
     'offline_setup':'Clean export extracted into a path with spaces; bundled wheels installed with no index and all hashes required.',
     'relocation':'Package and private runtime relocated independently; SDK and source hash checks passed.',
     'privacy':'Both ZIPs exactly match explicit allowlists; settings/history canaries excluded; no operational user data was accessed.',

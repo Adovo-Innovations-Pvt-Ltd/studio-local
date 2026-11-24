@@ -1,7 +1,6 @@
 # Publishing Studio Local
 
-Publisher: Adovo Innovations Pvt Ltd. Public repository:
-https://github.com/Adovo-Innovations-Pvt-Ltd/studio-local
+Studio Local is distributed through this Git marketplace repository.
 
 The build process only prepares files. Git publication and an official directory
 submission are separate actions. A Git marketplace is not directory approval.
@@ -13,8 +12,8 @@ submission are separate actions. A Git marketplace is not directory approval.
 2. Push only this
    marketplace repository. Never push the original development/installed plugin
    directories or the private Application Support data directory.
-3. Users can add the repository using
-   `codex plugin marketplace add Adovo-Innovations-Pvt-Ltd/studio-local`,
+3. Users can add an extracted marketplace checkout using
+   `codex plugin marketplace add .`,
    restart the desktop app and install Studio Local from the marketplace.
 4. If using a branch other than the host's default, supply `--ref BRANCH`.
 5. Attach the plugin ZIP and SHA-256 checksums to a tagged release when publishing
@@ -28,8 +27,8 @@ advertise Intel support: a pinned dependency lacks an Intel macOS wheel.
 The local stdio MCP path currently requires approved-partner eligibility and
 an allowlisted OpenAI organization. Confirm that with OpenAI before submission.
 Then complete verified publisher identity, product/support/privacy/terms URLs,
-review test cases and a walkthrough. The package includes icons and company
-attribution; hosted policy pages, verified portal identity and review credentials
+review test cases and a walkthrough. The package includes icons;
+hosted policy pages, verified portal identity and review credentials
 still need the real submission process.
 
 Upload the plugin ZIP through the approved desktop-only `Skills only` path,

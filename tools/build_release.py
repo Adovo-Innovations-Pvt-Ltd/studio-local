@@ -72,7 +72,7 @@ def package_files():
     defaults = json.loads((PLUGIN/'server/defaults.json').read_text())
     if defaults['api_key'] or defaults['history'] or defaults['estimated_spend_usd']:
         raise ValueError('Public defaults must have an empty key, history and spend.')
-    manifest = {'name': 'openai-studio', 'display_name': 'Studio Local', 'version': '1.1.0',
+    manifest = {'name': 'openai-studio', 'display_name': 'Studio Local', 'version': '1.1.1',
         'platform': 'macOS 13+ / Apple Silicon / native CPython 3.11',
         'files': {name: digest(PLUGIN/name) for name in files},
         'dependency_files': json.loads((PLUGIN/'audit/reviewed-sdk.json').read_text())}
@@ -99,8 +99,8 @@ def build():
     repo_files = REPO_FILES+['plugins/openai-studio/'+p for p in plugin_files]
     destination = REPO/'dist'
     destination.mkdir(exist_ok=True)
-    plugin_zip = destination/'studio-local-1.1.0-macos-arm64.zip'
-    repo_zip = destination/'studio-local-marketplace-1.1.0.zip'
+    plugin_zip = destination/'studio-local-1.1.1-macos-arm64.zip'
+    repo_zip = destination/'studio-local-marketplace-1.1.1.zip'
     write_zip(plugin_zip, PLUGIN, plugin_files)
     write_zip(repo_zip, REPO, repo_files)
     (destination/'SHA256SUMS.txt').write_text(''.join(f'{digest(p)}  {p.name}\n' for p in [plugin_zip, repo_zip]))

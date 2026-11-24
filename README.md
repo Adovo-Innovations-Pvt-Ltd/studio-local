@@ -4,7 +4,7 @@
 
 **Your OpenAI API tools, inside your conversation.**
 
-Studio Local is an open-source macOS MCP plugin from **Adovo Innovations Pvt Ltd**.
+Studio Local is an open-source macOS MCP plugin.
 Create images, edit with multiple references, make speech, transcribe audio and
 run text requests using your own OpenAI API account. Choose the model and
 supported quality or reasoning effort for each request in chat.
@@ -15,7 +15,7 @@ on your Mac. There is no separate dashboard, hosted Studio service or localhost
 web server. Studio Local is independent software and is not affiliated with or
 endorsed by OpenAI.
 
-**Release 1.1.0:** Apple Silicon Mac, macOS 13 or later, native CPython 3.11.
+**Release 1.1.1:** Apple Silicon Mac, macOS 13 or later, native CPython 3.11.
 Intel Macs, Windows and Linux are not supported by this release.
 
 ## What it does
@@ -70,12 +70,9 @@ installation and an OpenAI project API key. Python is not bundled. The 34 pinned
 application dependencies are included as public wheels, so setup does not fetch
 packages from the internet.
 
-1. Clone or download this repository, then open your own Terminal in its root.
-
-   ```sh
-   git clone https://github.com/Adovo-Innovations-Pvt-Ltd/studio-local.git
-   cd studio-local
-   ```
+1. Download the marketplace ZIP from this repository's Releases page and extract
+   it, or clone the repository using the URL shown under Code. Open your own
+   Terminal in the marketplace's root directory.
 
 2. Create the private runtime and enter your key:
 
@@ -163,10 +160,9 @@ See [verification evidence](plugins/openai-studio/audit/verification.md) and
 [publishing guidance](PUBLISHING.md). Hashes detect changes; they are not signatures
 or a guarantee that software has no vulnerabilities.
 
-## Publisher and license
+## License
 
-Published by [**Adovo Innovations Pvt Ltd**](https://github.com/Adovo-Innovations-Pvt-Ltd). Studio Local source is licensed
-under [MIT](LICENSE). Bundled dependencies retain their own licenses and
+Studio Local source is licensed under [MIT](LICENSE). Bundled dependencies retain their own licenses and
 [notices](plugins/openai-studio/THIRD_PARTY_NOTICES.txt).
 
 For a bug report, include your macOS/Python version, plugin version and a

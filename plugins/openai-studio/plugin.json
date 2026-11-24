@@ -1,10 +1,9 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "openai-studio",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
-  "author": {"name": "Adovo Innovations Pvt Ltd", "url": "https://github.com/Adovo-Innovations-Pvt-Ltd"},
-  "homepage": "https://github.com/Adovo-Innovations-Pvt-Ltd/studio-local",
+  "author": {"name": "Studio Local contributors"},
   "description": "Studio Local creates images, speech and text with your OpenAI API account, with model and effort choices in chat and up to 16 image references. Independent community software, not affiliated with OpenAI.",
   "keywords": ["images", "speech", "transcription", "text", "local"],
   "extensions": {
@@ -14,7 +13,7 @@
       "interface": {
         "displayName": "Studio Local",
         "shortDescription": "Create with your own API key",
-        "longDescription": "Studio Local by Adovo Innovations Pvt Ltd. Generate and edit images with up to 16 references, create speech, transcribe audio and run sequential text requests using your own OpenAI account. Select models and supported effort options in chat. Credentials are entered through a masked local Terminal prompt. Requires Apple Silicon, macOS 13+ and native Python 3.11 for one-time offline setup. API usage is billed by OpenAI. This does not extend host subscription limits. Independent software, not affiliated with OpenAI.",
+        "longDescription": "Generate and edit images with up to 16 references, create speech, transcribe audio and run sequential text requests using your own OpenAI account. Select models and supported effort options in chat. Credentials are entered through a masked local Terminal prompt. Requires Apple Silicon, macOS 13+ and native Python 3.11 for one-time offline setup. API usage is billed by OpenAI. This does not extend host subscription limits. Independent software, not affiliated with OpenAI.",
         "category": "Developer Tools",
         "capabilities": ["Read", "Write"],
         "logo": "./assets/icon.png",

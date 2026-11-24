@@ -2,14 +2,13 @@
 
 ![Studio Local icon](assets/icon-256.png)
 
-Studio Local is published by Adovo Innovations Pvt Ltd. Create images, speech
-and text using your own OpenAI API account. Choose models
+Create images, speech and text using your own OpenAI API account. Choose models
 and supported effort options in chat. Image edits accept up to 16 ordered
 reference images. Studio Local is independent community software, not affiliated
-with OpenAI. See the [marketplace README](https://github.com/Adovo-Innovations-Pvt-Ltd/studio-local#readme) for API credit eligibility,
+with OpenAI. The marketplace repository's README explains API credit eligibility,
 host usage limits and the difference between Codex and ChatGPT installation.
 
-Version 1.1.0 supports **Apple Silicon Macs, macOS 13+, native CPython 3.11**.
+Version 1.1.1 supports **Apple Silicon Macs, macOS 13+, native CPython 3.11**.
 Python itself is a prerequisite, not included. All 34 pinned application
 dependencies are bundled as public wheels; setup and startup do not download
 code. Intel is not supported by this release's dependency set.

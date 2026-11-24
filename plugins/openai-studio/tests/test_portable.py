@@ -100,7 +100,7 @@ class PortableTests(unittest.TestCase):
 
     def test_portable_metadata_and_original_icons(self):
         manifest = json.loads((PLUGIN/'plugin.json').read_text())
-        self.assertEqual(manifest['version'], '1.1.0')
+        self.assertEqual(manifest['version'], '1.1.1')
         interface = manifest['extensions']['com.openai']['interface']
         self.assertEqual(interface['displayName'], 'Studio Local')
         self.assertLessEqual(len(interface['shortDescription']), 30)
