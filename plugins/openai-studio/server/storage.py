@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
 import tempfile
 
 PACKAGE = Path(__file__).resolve().parent
@@ -39,7 +40,8 @@ def initialize(data):
         folder.mkdir(mode=0o700, parents=True, exist_ok=True)
         if folder.stat().st_uid != os.getuid():
             raise ValueError('Studio Local data must belong to the current user.')
-        folder.chmod(0o700)
+        if stat.S_IMODE(folder.stat().st_mode) != 0o700:
+            folder.chmod(0o700)
     target = data/'state/settings.json'
     try:
         fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
