@@ -39,6 +39,39 @@ class PortableTests(unittest.TestCase):
         self.assertEqual(stat.S_IMODE((self.data/'state/settings.json').stat().st_mode), 0o600)
         self.assertEqual(stat.S_IMODE(self.data.stat().st_mode), 0o700)
 
+    def test_startup_does_not_chmod_an_already_private_data_root(self):
+        storage.initialize(self.data)
+        settings = self.data/'state/settings.json'
+        before = settings.read_bytes()
+        chmod = Path.chmod
+
+        def sandbox_chmod(folder, mode, **kwargs):
+            if folder == self.data:
+                raise PermissionError('The startup sandbox cannot chmod the data root.')
+            return chmod(folder, mode, **kwargs)
+
+        with patch.object(Path, 'chmod', sandbox_chmod):
+            storage.initialize(self.data)
+        self.assertEqual(settings.read_bytes(), before)
+        self.assertEqual(stat.S_IMODE(self.data.stat().st_mode), 0o700)
+
+    def test_setup_repairs_existing_directory_permissions(self):
+        for folder in [self.data, self.data/'state', self.data/'inputs', self.data/'outputs']:
+            folder.mkdir(parents=True, exist_ok=True)
+            folder.chmod(0o755)
+        storage.initialize(self.data)
+        for folder in [self.data, self.data/'state', self.data/'inputs', self.data/'outputs']:
+            self.assertEqual(stat.S_IMODE(folder.stat().st_mode), 0o700)
+        self.assertEqual(stat.S_IMODE((self.data/'state/settings.json').stat().st_mode), 0o600)
+
+    def test_setup_propagates_a_denied_permission_repair(self):
+        self.data.mkdir(mode=0o755)
+        self.data.chmod(0o755)
+        with patch.object(Path, 'chmod', side_effect=PermissionError('Access denied.')):
+            with self.assertRaises(PermissionError):
+                storage.initialize(self.data)
+        self.assertFalse((self.data/'state/settings.json').exists())
+
     def test_repeat_setup_preserves_private_state(self):
         storage.save_key(self.data, 'sk-offline-key-only')
         path = self.data/'state/settings.json'

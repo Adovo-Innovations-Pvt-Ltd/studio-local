@@ -1,6 +1,6 @@
 # Portable release verification — 28 November 2026
 
-Studio Local 1.1.2 is a separate portable Apple Silicon/macOS package. The
+Studio Local 1.1.3 is a separate portable Apple Silicon/macOS package. The
 original local installation, saved key, history and generated files are untouched.
 No key, state, input/output or account catalog was read to construct this release.
 
@@ -30,6 +30,13 @@ segments resolving to home/root, case aliases and data paths overlapping the plu
 tests also check repository documents for credential-like text and personal
 paths, and reject symlink/outside-root exports. These scans supplement the
 allowlist; they do not prove all confidential data is absent.
+
+Version 1.1.3 skips chmod for owned directories already set to 0700. This avoids
+changing the data root's mode inside the startup sandbox, whose write allowance
+covers state, inputs and outputs. The sandbox policy is unchanged. Permission
+regressions cover a sandbox-denied chmod on an already-private data root,
+installer repair of existing 0755 directories, and propagation of a denied repair.
+Fresh-state tests also verify newly created private directories and settings.
 
 Public PyPI wheel acquisition used a separate reviewed sandbox with a clean
 environment, fixed pypi.org/files.pythonhosted.org HTTPS destinations, verified

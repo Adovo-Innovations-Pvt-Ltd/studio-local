@@ -15,8 +15,13 @@ on your Mac. There is no separate dashboard, hosted Studio service or localhost
 web server. Studio Local is independent software and is not affiliated with or
 endorsed by OpenAI.
 
-**Release 1.1.2:** Apple Silicon Mac, macOS 13 or later, native CPython 3.11.
+**Release 1.1.3:** Apple Silicon Mac, macOS 13 or later, native CPython 3.11.
 Intel Macs, Windows and Linux are not supported by this release.
+
+Version 1.1.3 fixes a startup permission error affecting both fresh and existing
+installations. Already-private data folders no longer require a permission change
+inside the startup sandbox. After upgrading, rerun the offline setup command to
+create the 1.1.3 runtime; existing keys, history and outputs are preserved.
 
 ## What it does
 
