@@ -1,6 +1,6 @@
 {
   "name": "openai-studio",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "MIT",
   "author": {"name": "Studio Local contributors"},
   "description": "Studio Local: create API assets with model and effort choices in chat. Independent community software.",

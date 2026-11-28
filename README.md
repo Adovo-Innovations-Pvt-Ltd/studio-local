@@ -15,7 +15,7 @@ on your Mac. There is no separate dashboard, hosted Studio service or localhost
 web server. Studio Local is independent software and is not affiliated with or
 endorsed by OpenAI.
 
-**Release 1.1.1:** Apple Silicon Mac, macOS 13 or later, native CPython 3.11.
+**Release 1.1.2:** Apple Silicon Mac, macOS 13 or later, native CPython 3.11.
 Intel Macs, Windows and Linux are not supported by this release.
 
 ## What it does

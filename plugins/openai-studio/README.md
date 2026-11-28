@@ -8,7 +8,7 @@ reference images. Studio Local is independent community software, not affiliated
 with OpenAI. The marketplace repository's README explains API credit eligibility,
 host usage limits and the difference between Codex and ChatGPT installation.
 
-Version 1.1.1 supports **Apple Silicon Macs, macOS 13+, native CPython 3.11**.
+Version 1.1.2 supports **Apple Silicon Macs, macOS 13+, native CPython 3.11**.
 Python itself is a prerequisite, not included. All 34 pinned application
 dependencies are bundled as public wheels; setup and startup do not download
 code. Intel is not supported by this release's dependency set.

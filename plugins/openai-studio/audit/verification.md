@@ -1,6 +1,6 @@
-# Portable release verification — 24 November 2026
+# Portable release verification — 28 November 2026
 
-Studio Local 1.1.1 is a separate portable Apple Silicon/macOS package. The
+Studio Local 1.1.2 is a separate portable Apple Silicon/macOS package. The
 original local installation, saved key, history and generated files are untouched.
 No key, state, input/output or account catalog was read to construct this release.
 
